@@ -1,8 +1,8 @@
 {
-  "name": "koa-route",
-  "description": "Koa route middleware",
-  "repository": "koajs/route",
-  "version": "3.2.0",
+  "name": "koa-better-route",
+  "description": "Like koa-route, except it works with koa-compose",
+  "repository": "https://github.com/cardstack/koa-better-route",
+  "version": "0.1.0",
   "keywords": [
     "koa",
     "middleware",
