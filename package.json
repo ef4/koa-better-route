@@ -17,6 +17,7 @@
     "istanbul-harmony": "0",
     "koa": "^2.0.0-alpha.3",
     "mocha": "^2.2.5",
+    "mocha-eslint": "^3.0.1",
     "should": "*",
     "supertest": "0"
   },

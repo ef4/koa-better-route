@@ -126,7 +126,7 @@ describe('route params', function(){
       return next();
     }))
 
-    app.use(route[method]('/:user(tj)', function(ctx, user, next){
+    app.use(route[method]('/:user(tj)', function(ctx /*, user, next */){
       ctx.status = 201;
     }))
 
@@ -141,7 +141,7 @@ describe('route params', function(){
   it('should work with method head when get is defined', function(done){
     const app = new Koa();
 
-    app.use(route.get('/tj', function (ctx, name){
+    app.use(route.get('/tj', function (ctx/*, name */){
       ctx.body = 'foo';
     }));
 
@@ -196,7 +196,7 @@ describe('routePath is added to ctx', function(){
   it('when route match', function(done){
     const app = new Koa();
 
-    app.use(route.get('/tj/:var', function (ctx, name){
+    app.use(route.get('/tj/:var', function (ctx /*, name */){
       ctx.routePath.should.equal('/tj/:var');
       done();
     }));
