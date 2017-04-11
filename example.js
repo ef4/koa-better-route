@@ -17,8 +17,8 @@ let pets = {
     ctx.body = 'pets: ' + names.join(', ');
   },
 
-  show: (ctx, name) => {
-    let pet = db[name];
+  show: (ctx) => {
+    let pet = db[ctx.routeParams.name];
     if (!pet) return ctx.throw('cannot find that pet', 404);
     ctx.body = pet.name + ' is a ' + pet.species;
   }
