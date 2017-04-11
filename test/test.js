@@ -15,8 +15,8 @@ const route = require('..');
 
 methods.forEach(function(method){
   const app = new Koa();
-  app.use(route[method]('/:user(tj)', function(ctx, user){
-    ctx.body = user;
+  app.use(route[method]('/:user(tj)', function(ctx){
+    ctx.body = ctx.routeParams.user;
   }))
 
   describe('route.' + method + '()', function(){
@@ -49,8 +49,8 @@ methods.forEach(function(method){
 
 methods.forEach(function(method){
   const app = new Koa();
-  app.use(route[method]('/:user(tj)')(function(ctx, user){
-    ctx.body = user;
+  app.use(route[method]('/:user(tj)')(function(ctx){
+    ctx.body = ctx.routeParams.user;
   }))
 
   describe('composed: route.' + method + '()', function(){
@@ -86,8 +86,8 @@ describe('route.all()', function(){
   describe('should work with', function(){
     methods.forEach(function(method){
       const app = new Koa();
-      app.use(route.all('/:user(tj)', function(ctx, user){
-        ctx.body = user;
+      app.use(route.all('/:user(tj)', function(ctx){
+        ctx.body = ctx.routeParams.user;
       }))
 
       it(method, function(done){
@@ -102,8 +102,8 @@ describe('route.all()', function(){
   describe('when patch does not match', function(){
     it('should 404', function (done){
       const app = new Koa();
-      app.use(route.all('/:user(tj)', function(ctx, user){
-        ctx.body = user;
+      app.use(route.all('/:user(tj)', function(ctx){
+        ctx.body = ctx.routeParams.user;
       }))
 
       request(app.listen())
@@ -117,16 +117,16 @@ describe('route params', function(){
   methods.forEach(function(method){
     const app = new Koa();
 
-    app.use(route[method]('/:user(tj)', function(ctx, user, next){
+    app.use(route[method]('/:user(tj)', function(ctx, next){
       return next();
     }))
 
-    app.use(route[method]('/:user(tj)', function(ctx, user, next){
-      ctx.body = user;
+    app.use(route[method]('/:user(tj)', function(ctx, next){
+      ctx.body = ctx.routeParams.user;
       return next();
     }))
 
-    app.use(route[method]('/:user(tj)', function(ctx /*, user, next */){
+    app.use(route[method]('/:user(tj)', function(ctx){
       ctx.status = 201;
     }))
 
@@ -141,7 +141,7 @@ describe('route params', function(){
   it('should work with method head when get is defined', function(done){
     const app = new Koa();
 
-    app.use(route.get('/tj', function (ctx/*, name */){
+    app.use(route.get('/tj', function (ctx){
       ctx.body = 'foo';
     }));
 
@@ -153,8 +153,8 @@ describe('route params', function(){
   it('should be decoded', function(done){
     const app = new Koa();
 
-    app.use(route.get('/package/:name', function (ctx, name){
-      name.should.equal('http://github.com/component/tip');
+    app.use(route.get('/package/:name', function (ctx){
+      ctx.routeParams.name.should.equal('http://github.com/component/tip');
       done();
     }));
 
@@ -166,9 +166,9 @@ describe('route params', function(){
   it('should be null if not matched', function(done){
     const app = new Koa();
 
-    app.use(route.get('/api/:resource/:id?', function (ctx, resource, id){
-      resource.should.equal('users');
-      (id == null).should.be.true;
+    app.use(route.get('/api/:resource/:id?', function (ctx){
+      ctx.routeParams.resource.should.equal('users');
+      (ctx.routeParams.id == null).should.be.true;
       done();
     }));
 
@@ -180,9 +180,9 @@ describe('route params', function(){
   it('should use the given options', function(done){
     const app = new Koa();
 
-    app.use(route.get('/api/:resource/:id', function (ctx, resource, id){
-      resource.should.equal('users');
-      id.should.equal('1')
+    app.use(route.get('/api/:resource/:id', function (ctx){
+      ctx.routeParams.resource.should.equal('users');
+      ctx.routeParams.id.should.equal('1')
       done();
     }, { end: false }));
 
@@ -196,7 +196,7 @@ describe('routePath is added to ctx', function(){
   it('when route match', function(done){
     const app = new Koa();
 
-    app.use(route.get('/tj/:var', function (ctx /*, name */){
+    app.use(route.get('/tj/:var', function (ctx){
       ctx.routePath.should.equal('/tj/:var');
       done();
     }));

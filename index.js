@@ -31,12 +31,14 @@ function create(method) {
         // path
         const m = re.exec(ctx.path);
         if (m) {
-          const args = m.slice(1).map(decode);
+          let args = Object.create(null);
+          m.slice(1).forEach((value, index) => {
+            args[re.keys[index].name] = decode(value);
+          });
           ctx.routePath = path;
           debug('%s %s matches %s %j', ctx.method, path, ctx.path, args);
-          args.unshift(ctx);
-          args.push(next);
-          return Promise.resolve(routeFunc.apply(ctx, args));
+          ctx.routeParams = args;
+          return Promise.resolve(routeFunc.call(ctx, ctx, next));
         }
 
         // miss
