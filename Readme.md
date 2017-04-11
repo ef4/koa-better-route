@@ -1,6 +1,6 @@
 # koa-route
 
- Uber simple route middleware for koa.
+Simple route middleware for koa. Originally forked from https://github.com/koajs/route. The difference is that we pass route params as `ctx.routeParams` instead of altering the function signature. This allows your routes to compose correctly with other middleware.
 
 ```js
 const _ = require('koa-route');
@@ -8,8 +8,6 @@ app.use(_.get('/pets', pets.list));
 app.use(_.get('/pets/:name', pets.show));
 ```
 
- If you need a full-featured solution check out [koa-router](https://github.com/alexmingoia/koa-router),
- a Koa clone of express-resource.
 
 ## Installation
 
@@ -38,8 +36,8 @@ const pets = {
     ctx.body = 'pets: ' + names.join(', ');
   },
 
-  show: (ctx, name) => {
-    const pet = db[name];
+  show: (ctx) => {
+    const pet = db[ctx.routeParams.name];
     if (!pet) return ctx.throw('cannot find that pet', 404);
     ctx.body = pet.name + ' is a ' + pet.species;
   }
