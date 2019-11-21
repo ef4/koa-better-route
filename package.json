@@ -2,7 +2,7 @@
   "name": "koa-better-route",
   "description": "Like koa-route, except it works with koa-compose",
   "repository": "https://github.com/cardstack/koa-better-route",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "keywords": [
     "koa",
     "middleware",
@@ -11,7 +11,8 @@
     "route"
   ],
   "files": [
-    "index.js"
+    "index.js",
+    "index.d.ts"
   ],
   "devDependencies": {
     "@types/koa": "^2.0.52",
