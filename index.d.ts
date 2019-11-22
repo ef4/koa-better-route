@@ -15,7 +15,7 @@ export declare namespace KoaRoute {
         routeParams: { [name: string]: string };
     }
 
-    type Context = Koa.Context & RouteContext;
+    type Context<StateT = Koa.DefaultState, CustomT = Koa.DefaultContext> = Koa.ParameterizedContext<StateT, CustomT> & RouteContext;
 
     type Path = string | RegExp | Array<string | RegExp>;
 
