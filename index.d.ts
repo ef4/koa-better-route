@@ -8,16 +8,18 @@
 import * as Koa from 'koa';
 import * as pathToRegexp from 'path-to-regexp';
 
-declare namespace KoaRoute {
+export declare namespace KoaRoute {
 
     interface RouteContext {
         routePath: string;
         routeParams: { [name: string]: string };
     }
 
+    type Context = Koa.Context & RouteContext;
+
     type Path = string | RegExp | Array<string | RegExp>;
 
-    type Handler = (this: Koa.Context & RouteContext, ctx: Koa.Context & RouteContext, next: Koa.Next) => any;
+    type Handler = (this: Context, ctx: Context, next: Koa.Next) => any;
 
     type CreateRoute = (routeFunc: Handler) => Koa.Middleware;
 
@@ -69,4 +71,5 @@ declare namespace KoaRoute {
 
 declare const routes: KoaRoute.Routes;
 
-export = routes;
+export default routes;
+
