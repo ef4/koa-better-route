@@ -1,9 +1,4 @@
-// Type definitions for koa-route 3.2
-// Project: https://github.com/koajs/route#readme
-// Definitions by: Mike Cook <https://github.com/migstopheles>
-//                 Jaco Greeff <https://github.com/jacogr>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.3
+// Adapted from type definitions for koa-route 3.2
 
 import * as Koa from 'koa';
 import * as pathToRegexp from 'path-to-regexp';
@@ -19,16 +14,12 @@ export declare namespace KoaRoute {
 
     type Path = string | RegExp | Array<string | RegExp>;
 
-    type Handler = (this: Context, ctx: Context, next: Koa.Next) => any;
-
-    type CreateRoute = (routeFunc: Handler) => Koa.Middleware;
+    type Handler<StateT, CustomT> = (this: Context<StateT, CustomT>, ctx: Context<StateT, CustomT>, next: Koa.Next) => any;
 
     interface Method {
-        (path: Path): CreateRoute;
-        (path: Path, fn: Handler, opts?: pathToRegexp.ParseOptions & pathToRegexp.RegExpOptions): Koa.Middleware;
+        <StateT, CustomT>(path: Path): (routeFunc: Handler<StateT, CustomT>) => Handler<StateT, CustomT>;
+        <StateT, CustomT>(path: Path, fn: Handler<StateT, CustomT>, opts?: pathToRegexp.ParseOptions & pathToRegexp.RegExpOptions): Handler<StateT, CustomT>;
     }
-
-    type CreateMethod = (method: string) => Method;
 
     interface Routes {
         all: Method;
