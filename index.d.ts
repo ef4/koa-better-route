@@ -17,8 +17,8 @@ export declare namespace KoaRoute {
     type Handler<StateT, CustomT> = (this: Context<StateT, CustomT>, ctx: Context<StateT, CustomT>, next: Koa.Next) => any;
 
     interface Method {
-        <StateT, CustomT>(path: Path): (routeFunc: Handler<StateT, CustomT>) => Handler<StateT, CustomT>;
-        <StateT, CustomT>(path: Path, fn: Handler<StateT, CustomT>, opts?: pathToRegexp.ParseOptions & pathToRegexp.RegExpOptions): Handler<StateT, CustomT>;
+        <StateT, CustomT>(path: Path): (routeFunc: Handler<StateT, CustomT>) => Koa.Middleware<StateT, CustomT>;
+        <StateT, CustomT>(path: Path, fn: Handler<StateT, CustomT>, opts?: pathToRegexp.ParseOptions & pathToRegexp.RegExpOptions): Koa.Middleware<StateT, CustomT>;
     }
 
     interface Routes {
